@@ -55,42 +55,46 @@ export default function TodoList({ session }: { session: Session }) {
 
   return (
     <div className="flex flex-col gap-6 w-full min-h-96">
-       <h1 className="text-2xl font-bold text-center text-gray-800 mb-4 italic">📝 My reading List</h1>
-    
-    <div className="flex justify-center items-center w-full mb-4">
-            <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          addTodo(newTaskText);
-        }}
-        className="flex gap-2 my-2"
-      >
-        <input
-          className="bg-white text-black flex-grow md:w-80 p-2 rounded-l-md border border-gray-300 focus:outline-none"
-          type="text"
-          placeholder="The Hobbit, Harry Potter, etc"
-          value={newTaskText}
-          onChange={(e) => {
-            setErrorText("");
-            setNewTaskText(e.target.value);
+      <h1 className="text-2xl font-bold text-center text-gray-800 mb-4 italic">
+        📝 My reading List
+      </h1>
+
+      <div className="flex justify-center items-center w-full mb-4">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            addTodo(newTaskText);
           }}
-        />
-        <button className="bg-indigo-500 text-white px-4 py-2 rounded-r-md hover:bg-indigo-600" type="submit">
-          Add
-        </button>
-      </form>
-    </div>
- <div className="bg-white shadow overflow-hidden rounded-md">
-    <ul id="taskList" className="list-disc space-y-2">
-               {todos.map((todo) => (
+          className="flex gap-2 my-2"
+        >
+          <input
+            className="bg-white text-black flex-grow md:w-80 p-2 rounded-l-md border border-gray-300 focus:outline-none"
+            type="text"
+            placeholder="The Hobbit, Harry Potter, etc"
+            value={newTaskText}
+            onChange={(e) => {
+              setErrorText("");
+              setNewTaskText(e.target.value);
+            }}
+          />
+          <button
+            className="bg-indigo-500 text-white px-4 py-2 rounded-r-md hover:bg-indigo-600"
+            type="submit"
+          >
+            Add
+          </button>
+        </form>
+      </div>
+      <div className="bg-white shadow overflow-hidden rounded-md">
+        <ul id="taskList" className="list-disc space-y-2">
+          {todos.map((todo) => (
             <Todo
               key={todo.id}
               todo={todo}
               onDelete={() => deleteTodo(todo.id)}
             />
           ))}
-    </ul>
-      
+        </ul>
       </div>
       {!!errorText && <Alert text={errorText} />}
     </div>
@@ -120,20 +124,17 @@ const Todo = ({ todo, onDelete }: { todo: Todos; onDelete: () => void }) => {
   return (
     <li className="flex items center justify-between gap-4 border border-indigo-300 rounded p-2">
       <div className="flex items-center gap-4">
-
-          <div>
+        <div>
           <input
-            className="w-6 h-6 ml-2 mt-2 border-2 hover:border-black rounded h-5 cursor-pointer"
+            className="w-6 h-6 ml-2 mt-2 border-2 hover:border-black rounded cursor-pointer"
             onChange={() => toggle()}
             type="checkbox"
             checked={isCompleted ? true : false}
           />
-        </div>          
-        <div className="text-gray-800 text-1xl ms-2 italic">  
-            {todo.task}
-          </div>
-</div>
-<div>
+        </div>
+        <div className="text-gray-800 text-1xl ms-2 italic">{todo.task}</div>
+      </div>
+      <div>
         <button
           onClick={(e) => {
             e.preventDefault();
