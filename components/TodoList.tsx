@@ -54,9 +54,11 @@ export default function TodoList({ session }: { session: Session }) {
   };
 
   return (
-    <div className="w-full">
-      <h1 className="mb-12">Todo List.</h1>
-      <form
+    <div className="flex flex-col gap-6 w-full min-h-96">
+       <h1 className="text-2xl font-bold text-center text-gray-800 mb-4 italic">📝 My reading List</h1>
+    
+    <div className="flex justify-center items-center w-full mb-4">
+            <form
         onSubmit={(e) => {
           e.preventDefault();
           addTodo(newTaskText);
@@ -64,31 +66,33 @@ export default function TodoList({ session }: { session: Session }) {
         className="flex gap-2 my-2"
       >
         <input
-          className="rounded w-full p-2"
+          className="bg-white text-black flex-grow md:w-80 p-2 rounded-l-md border border-gray-300 focus:outline-none"
           type="text"
-          placeholder="make coffee"
+          placeholder="The Hobbit, Harry Potter, etc"
           value={newTaskText}
           onChange={(e) => {
             setErrorText("");
             setNewTaskText(e.target.value);
           }}
         />
-        <button className="btn-black" type="submit">
+        <button className="bg-indigo-500 text-white px-4 py-2 rounded-r-md hover:bg-indigo-600" type="submit">
           Add
         </button>
       </form>
-      {!!errorText && <Alert text={errorText} />}
-      <div className="bg-white shadow overflow-hidden rounded-md">
-        <ul>
-          {todos.map((todo) => (
+    </div>
+ <div className="bg-white shadow overflow-hidden rounded-md">
+    <ul id="taskList" className="list-disc space-y-2">
+               {todos.map((todo) => (
             <Todo
               key={todo.id}
               todo={todo}
               onDelete={() => deleteTodo(todo.id)}
             />
           ))}
-        </ul>
+    </ul>
+      
       </div>
+      {!!errorText && <Alert text={errorText} />}
     </div>
   );
 }
@@ -114,28 +118,29 @@ const Todo = ({ todo, onDelete }: { todo: Todos; onDelete: () => void }) => {
   };
 
   return (
-    <li className="w-full block cursor-pointer hover:bg-200 focus:outline-none focus:bg-200 transition duration-150 ease-in-out">
-      <div className="flex items-center px-4 py-4 sm:px-6">
-        <div className="min-w-0 flex-1 flex items-center">
-          <div className="text-sm leading-5 font-medium truncate">
-            {todo.task}
-          </div>
-        </div>
-        <div>
+    <li className="flex items center justify-between gap-4 border border-indigo-300 rounded p-2">
+      <div className="flex items-center gap-4">
+
+          <div>
           <input
-            className="cursor-pointer"
+            className="w-6 h-6 ml-2 mt-2 border-2 hover:border-black rounded h-5 cursor-pointer"
             onChange={() => toggle()}
             type="checkbox"
             checked={isCompleted ? true : false}
           />
-        </div>
+        </div>          
+        <div className="text-gray-800 text-1xl ms-2 italic">  
+            {todo.task}
+          </div>
+</div>
+<div>
         <button
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             onDelete();
           }}
-          className="w-4 h-4 ml-2 border-2 hover:border-black rounded"
+          className="w-6 h-6 ml-2 mt-2 border-2 hover:border-black rounded"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
